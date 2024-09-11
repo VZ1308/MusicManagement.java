@@ -1,15 +1,59 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.util.regex.Pattern;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Track {
+    private int trackID;
+    private String titel;
+    private String mp3Dateiname;
+    private int laenge;
+
+    // Konstruktor zur Initialisierung eines Track-Objekts
+    public Track(int trackID, String titel, String mp3Dateiname, int laenge) {
+        // Validierung der Track-ID
+        if (trackID <= 0) {
+            throw new IllegalArgumentException("Track ID muss eine positive Zahl sein.");
         }
+        // Validierung des Titels
+        if (titel == null || titel.isEmpty()) {
+            throw new IllegalArgumentException("Titel darf nicht null oder leer sein.");
+        }
+        // Validierung des MP3-Dateinamens
+        if (!isValidMp3(mp3Dateiname)) {
+            throw new IllegalArgumentException("Ungültiges MP3-Format. Der Dateiname muss auf '.mp3' enden.");
+        }
+        // Validierung der Länge
+        if (laenge <= 0) {
+            throw new IllegalArgumentException("Länge muss eine positive Zahl sein.");
+        }
+        // Zuweisung der Werte, wenn alle Validierungen bestanden sind
+        this.trackID = trackID;
+        this.titel = titel;
+        this.mp3Dateiname = mp3Dateiname;
+        this.laenge = laenge;
+    }
+
+    // Methode zur Überprüfung, ob der MP3-Dateiname gültig und nicht null ist
+    private boolean isValidMp3(String mp3Dateiname) {
+        String regex = ".*\\.mp3$";
+        return mp3Dateiname != null && Pattern.matches(regex, mp3Dateiname); // Sicherheitsmaßnahme, um NullPointerExceptions zu verhindern
+    }
+
+    // Getter-Methoden
+    public int getTrackID() {
+        return trackID;
+    }
+
+    public int getLaenge() {
+        return laenge;
+    }
+
+    // toString-Methode zur Darstellung des Track-Objekts als String
+    @Override
+    public String toString() {
+        return "Track{" +
+                "trackID=" + trackID +
+                ", titel='" + titel + '\'' +
+                ", mp3Dateiname='" + mp3Dateiname + '\'' +
+                ", laenge=" + laenge + " Sekunden" +
+                '}';
     }
 }
